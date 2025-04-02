@@ -6,6 +6,8 @@
   "scripts": {
     "dev:js": "nodemon",
     "dev": "concurrently npm:dev:*",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "db:create:dev": "createdbjs ${DATABASE_DB:-auth_passport_challenge_dev} --user=${DATABASE_USER:-postgres} --password=${DATABASE_PASSWORD:-postgres} --host=${DATABASE_HOST:-127.0.0.1}",
     "db": "node --loader ts-node/esm ./node_modules/.bin/knex",
     "db:migrate:dev": "npm run db migrate:latest",
@@ -36,6 +38,7 @@
     "knex": "^3.1.0",
     "objection": "^3.1.5",
     "pg": "^8.14.1",
-    "pgtools": "^1.0.1"
+    "pgtools": "^1.0.1",
+    "vitest": "^3.1.1"
   }
 }

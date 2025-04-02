@@ -1,0 +1,32 @@
+<div
+    style="display: flex; align-items: center; padding: 10px; border: 1px solid #ccc; width: max-content;">
+    <div style="display: flex; flex-direction: column;">
+        <p style="margin: 0;">
+            id: <%= user.id %>
+        </p>
+        <p style="margin: 0;">
+            name: <%= user.name %>
+        </p>
+        <p style="margin: 0;">
+            email: <%= user.email %>
+        </p>
+        <p style="margin: 0;">
+            createdAt: <%= user.createdAt %>
+        </p>
+        <p style="margin: 0;">
+            updatedAt: <%= user.updatedAt %>
+        </p>
+        <p style="margin: 0;">
+            role: <%= user.role %>
+        </p>
+        <p style="margin: 0;">
+            Dealership: <%= user.dealershipId %>
+        </p>
+    </div>
+
+    <div style="margin-left: 20px;">
+        <a href="/users/<%= user.id %>/edit">Edit</a>
+        <br>
+        <a href="/users/<%= user.id %>/delete">Delete</a>
+    </div>
+</div>
