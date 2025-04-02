@@ -11,12 +11,44 @@
 </label>
 
 <label>Role:
-    <select name="role" required>
-        <option value="admin" <%=user.role==='admin' %>>admin</option>
-        <option value="dealership" <%=user.role==='dealership' %>>dealership</option>
+    <select id="roleSelect" name="role" required>
+        <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>admin</option>
+        <option value="dealership" <%= user.role === 'dealership' ? 'selected' : '' %>>dealership</option>
     </select>
 </label>
+
+<div id="dealershipSelectContainer" style="display: none;">
+    <label>Dealership:
+        <select name="dealershipId">
+            <option value="">
+                Select
+            </option>
+            <% dealerships.forEach(function(dealership) { %>
+                <option value="<%= dealership.id %>">
+                    <%= dealership.name %>
+                </option>
+            <% }); %>
+        </select>
+    </label>
+</div>
 
 <button type="submit">
     Save
 </button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSelect = document.getElementById('roleSelect');
+        const dealershipSelectContainer = document.getElementById('dealershipSelectContainer');
+
+        roleSelect.addEventListener('change', function () {
+            if (roleSelect.value === 'dealership') {
+                dealershipSelectContainer.style.display = 'block';
+            } else {
+                dealershipSelectContainer.style.display = 'none';
+            }
+        });
+
+        roleSelect.dispatchEvent(new Event('change'));
+    });
+</script>

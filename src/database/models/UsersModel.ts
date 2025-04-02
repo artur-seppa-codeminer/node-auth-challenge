@@ -1,6 +1,6 @@
 import { JSONSchema, ModelObject, RelationMappings  } from 'objection';
 import { BaseModel } from './BaseModel.js';
-import { DealershipModel } from './DealershipModel.js';
+import { DealershipModel, DealershipSchema } from './DealershipModel.js';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -16,6 +16,7 @@ class UserModel extends BaseModel {
   password!: string;
   role!: UserRole;
   dealershipId?: number | null;
+  dealership?: DealershipSchema;
 
   static jsonSchema: JSONSchema = {
     type: 'object',
@@ -39,7 +40,9 @@ class UserModel extends BaseModel {
       },
       dealershipId: { 
         type: ['integer', 'null']
-      }
+      },
+      createdAt: { type: 'string', format: 'date-time' },
+      updatedAt: { type: 'string', format: 'date-time' } 
     },
   };
 

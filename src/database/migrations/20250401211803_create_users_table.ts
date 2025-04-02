@@ -5,10 +5,10 @@ export async function up(knex: Knex): Promise<void> {
     table.increments('id').primary();
     table.string('name', 100).notNullable();
     table.string('email', 255).notNullable().unique();
-    table.string('password_hash', 255).notNullable();
+    table.string('password', 255).notNullable();
     table.enum('role', ['admin', 'dealership']).notNullable();
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.timestamp('createdAt').defaultTo(knex.fn.now()).notNullable();
+    table.timestamp('updatedAt').defaultTo(knex.fn.now()).notNullable();
 
     table.integer('dealershipId')
       .unsigned()

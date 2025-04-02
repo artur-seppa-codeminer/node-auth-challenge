@@ -7,9 +7,9 @@ const router = plugin(async (server, _) => {
   server.get('/users', UsersController.index);
   server.get('/users/create', UsersController.create);
   server.post('/users', UsersController.store);
-  server.get('/users/:id/edit', DealershipController.edit);
-  server.post('/users/:id', DealershipController.update);
-  server.get('/users/:id/delete', DealershipController.destroy);
+  server.get('/users/:id/edit', UsersController.edit);
+  server.post('/users/:id', UsersController.update);
+  server.get('/users/:id/delete', UsersController.destroy);
 
   server.get('/dealerships', DealershipController.index);
   server.get('/dealerships/create', DealershipController.create);
