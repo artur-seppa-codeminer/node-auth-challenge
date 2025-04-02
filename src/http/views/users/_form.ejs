@@ -1,0 +1,22 @@
+<label>Name:
+    <input type="text" name="name" value="<%= user.name %>" required>
+</label>
+
+<label>Email:
+    <input type="email" name="email" value="<%= user.email %>" required>
+</label>
+
+<label>Password:
+    <input type="password" name="password" required>
+</label>
+
+<label>Role:
+    <select name="role" required>
+        <option value="admin" <%=user.role==='admin' %>>admin</option>
+        <option value="dealership" <%=user.role==='dealership' %>>dealership</option>
+    </select>
+</label>
+
+<button type="submit">
+    Save
+</button>
