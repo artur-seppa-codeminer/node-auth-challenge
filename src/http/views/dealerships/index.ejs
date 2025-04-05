@@ -1,6 +1,18 @@
 <h1>Dealerships</h1>
 
-<a href="/dealerships/create">New Dealership</a>
+<div style="display: flex; align-items: center; padding: 10px; border: 1px solid #ccc; width: max-content;">
+  <div style="display: flex; flex-direction: column;">
+    <a href="/dealerships/create">New Dealership</a>
+  </div>
+
+  <div style="margin-left: 20px;">
+    Current User
+    <p style="margin: 0; display: flex; flex-direction: column;">
+      email: <%= currentUser.email %>
+      <a href="/logout">Logout</a>
+    </p>
+  </div>
+</div>
 
 <ul>
   <% dealerships.forEach((dealership) => { %>

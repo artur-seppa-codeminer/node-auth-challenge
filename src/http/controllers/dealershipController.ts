@@ -4,11 +4,11 @@ import { DealershipModel } from '../../database/models/DealershipModel.js';
 const index = handler(async (request, reply) => {
   const dealerships = await DealershipModel.query();
 
-  return reply.view('dealerships/index', { dealerships });
+  return reply.view('dealerships/index', { dealerships, currentUser: request.user });
 });
 
 const create = handler(async (request, reply) => {
-  return reply.view('dealerships/create', { dealership: new DealershipModel() });
+  return reply.view('dealerships/create', { dealership: new DealershipModel(), currentUser: request.user });
 });
 
 const store = handler<{ Body: { name: string } }>(async (request, reply) => {
@@ -20,14 +20,14 @@ const store = handler<{ Body: { name: string } }>(async (request, reply) => {
     return reply.redirect(`/dealerships`);
   } catch (error) {
     console.error(error);
-    return reply.view('dealerships/create', { dealership: new DealershipModel().$set({ name }) });
+    return reply.view('dealerships/create', { dealership: new DealershipModel().$set({ name }), currentUser: request.user });
   }
 });
 
 const edit = handler<{ Params: { id: string } }>(async (request, reply) => {
   const dealership = await DealershipModel.query().findById(request.params.id).throwIfNotFound();
 
-  return reply.view('dealerships/update', { dealership });
+  return reply.view('dealerships/update', { dealership, currentUser: request.user });
 });
 
 const update = handler<{
@@ -44,7 +44,7 @@ const update = handler<{
     return reply.redirect(`/dealerships`);
   } catch (error) {
     console.error(error);
-    return reply.view('dealerships/update', { dealership: newDealership });
+    return reply.view('dealerships/update', { dealership: newDealership, currentUser: request.user });
   }
 });
 

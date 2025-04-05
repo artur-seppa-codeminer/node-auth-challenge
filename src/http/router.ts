@@ -2,28 +2,38 @@ import plugin from 'fastify-plugin';
 import * as DealershipController from './controllers/dealershipController.js';
 import * as VehiclesController from './controllers/vehiclesController.js';
 import * as UsersController from './controllers/usersController.js';
+import * as loginController from './controllers/loginController.js';
 
 const router = plugin(async (server, _) => {
-  server.get('/users', UsersController.index);
-  server.get('/users/create', UsersController.create);
-  server.post('/users', UsersController.store);
-  server.get('/users/:id/edit', UsersController.edit);
-  server.post('/users/:id', UsersController.update);
-  server.get('/users/:id/delete', UsersController.destroy);
+  server.get('/', VehiclesController.index);
 
-  server.get('/dealerships', DealershipController.index);
-  server.get('/dealerships/create', DealershipController.create);
-  server.post('/dealerships', DealershipController.store);
-  server.get('/dealerships/:id/edit', DealershipController.edit);
-  server.post('/dealerships/:id', DealershipController.update);
-  server.get('/dealerships/:id/delete', DealershipController.destroy);
+  server.get('/login', loginController.index);
+  server.post('/login', loginController.login);
+  server.register(async (protectedRoutes) => {
+    protectedRoutes.addHook('onRequest', protectedRoutes.authenticate);
 
-  server.get('/vehicles', VehiclesController.index);
-  server.get('/vehicles/create', VehiclesController.create);
-  server.post('/vehicles', VehiclesController.store);
-  server.get('/vehicles/:id/edit', VehiclesController.edit);
-  server.post('/vehicles/:id', VehiclesController.update);
-  server.get('/vehicles/:id/delete', VehiclesController.destroy);
+    protectedRoutes.get('/users', UsersController.index);
+    protectedRoutes.get('/users/create', UsersController.create);
+    protectedRoutes.post('/users', UsersController.store);
+    protectedRoutes.get('/users/:id/edit', UsersController.edit);
+    protectedRoutes.post('/users/:id', UsersController.update);
+    protectedRoutes.get('/users/:id/delete', UsersController.destroy);
+
+    protectedRoutes.get('/dealerships', DealershipController.index);
+    protectedRoutes.get('/dealerships/create', DealershipController.create);
+    protectedRoutes.post('/dealerships', DealershipController.store);
+    protectedRoutes.get('/dealerships/:id/edit', DealershipController.edit);
+    protectedRoutes.post('/dealerships/:id', DealershipController.update);
+    protectedRoutes.get('/dealerships/:id/delete', DealershipController.destroy);
+
+    protectedRoutes.get('/vehicles/create', VehiclesController.create);
+    protectedRoutes.post('/vehicles', VehiclesController.store);
+    protectedRoutes.get('/vehicles/:id/edit', VehiclesController.edit);
+    protectedRoutes.post('/vehicles/:id', VehiclesController.update);
+    protectedRoutes.get('/vehicles/:id/delete', VehiclesController.destroy);
+
+    protectedRoutes.get('/logout', loginController.logout);
+  }, { prefix: '' });
 });
 
 export { router };

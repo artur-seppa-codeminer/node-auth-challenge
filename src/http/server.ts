@@ -7,6 +7,7 @@ import { router } from './router.js';
 import { fastifyCookie } from '@fastify/cookie';
 import { fastifySession } from '@fastify/session';
 import { fastifyFormbody } from '@fastify/formbody';
+import { authPlugin } from './authPlugin.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -22,8 +23,23 @@ const makeServer = () => {
     layout: 'layouts/layout.ejs',
   });
 
-  server.register(fastifyCookie);
-  server.register(fastifySession, { secret: '69DB95EA161AC342B1AC7D45EAB22456', cookie: { secure: false } });
+  server.register(fastifyCookie, {
+    secret: '69DB95EA161AC342B1AC7D45EAB22456',
+    parseOptions: {}
+  })
+
+  server.register(fastifySession, { 
+    secret: '69DB95EA161AC342B1AC7D45EAB22456', 
+    cookie: { 
+      secure: process.env.NODE_ENV === 'production', 
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000
+    },
+    saveUninitialized: false
+  })
+
+  server.register(authPlugin);
   server.register(fastifyFormbody);
 
   server.register(router);
