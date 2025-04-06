@@ -2,6 +2,15 @@ import { handler } from '../../_lib/http/handler.js';
 import { VehicleModel } from '../../database/models/VehicleModel.js';
 import { UserModel } from '../../database/models/UsersModel.js';
 
+interface VehiclesRequest {
+  name: string,
+  brand: string,
+  model: string,
+  year: string,
+  comments: string,
+  userId: number
+}
+
 const index = handler(async (request, reply) => {
   const vehicles = await VehicleModel.query();
 
@@ -12,14 +21,16 @@ const create = handler(async (request, reply) => {
   return reply.view('vehicles/create', { vehicle: new VehicleModel(), currentUser: request.user });
 });
 
-const store = handler<{
-  Body: { name: string, brand: string, model: string, year: string, comments: string, userId: number };
-}>(async (request, reply) => {
+const store = handler<{ Body: VehiclesRequest }>(async (request, reply) => {
   const { name, brand, model, year, comments, userId } = request.body;
 
+  if (!name || !brand || !model || !year || !comments || !userId) {
+    throw new Error('All fields are required');
+  }
+
   const user = await UserModel.query().findById(userId).withGraphFetched('dealership');
-  
-  if (!user?.dealershipId) {
+
+  if (!user || !user.dealershipId) {
     throw new Error('Users without dealership cannot be associated with a veihicle');
   }
 

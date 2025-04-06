@@ -34,4 +34,28 @@ describe('usersController.update', () => {
 
         expect(reply.redirect).toHaveBeenCalledWith('/users');
     });
+
+    it('should throw not found error when user does not exist', async () => {
+        const mockError = new Error('Not Found') as Error & { statusCode: number };
+        mockError.statusCode = 404;
+
+        const mockThrowIfNotFound = vi.fn().mockRejectedValue(mockError);
+        (UserModel.query as any).mockReturnValue({
+            findById: vi.fn().mockReturnThis(),
+            throwIfNotFound: mockThrowIfNotFound
+        });
+
+        const request = {
+            params: { id: '999' }
+        };
+        const reply = {
+            view: vi.fn(),
+            code: vi.fn()
+        };
+
+        await expect(UsersController.edit(request as any, reply as any))
+            .rejects.toThrow('Not Found');
+
+        expect(reply.view).not.toHaveBeenCalled();
+    });
 });
