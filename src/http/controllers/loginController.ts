@@ -45,6 +45,13 @@ const authenticate = async (email: string, password: string): Promise<Authentica
 
 const login = handler<{ Body: UserRequest }>(async (request, reply) => {
     const { email, password } = request.body;
+
+    if (!email || !password) {
+        return reply.view('login/index', {
+            error: 'Email and password are required'
+        });
+    }
+
     const result = await authenticate(email, password);
 
     if (!result?.success || !result.user?.id || !result.user?.name) {
@@ -79,4 +86,4 @@ const logout = handler(async (request, reply) => {
     });
 });
 
-export { index, login, logout };
+export { index, authenticate, login, logout };
