@@ -1,9 +1,21 @@
 <h1>Users</h1>
 
-<a href="/users/create">New user</a>
+<div style="display: flex; align-items: center; padding: 10px; border: 1px solid #ccc; width: max-content;">
+  <div style="display: flex; flex-direction: column;">
+    <a href="/users/create">New user</a>
+  </div>
+
+  <div style="margin-left: 20px;">
+    Current User
+    <p style="margin: 0; display: flex; flex-direction: column;">
+      email: <%= currentUser.email %>
+      <a href="/logout">Logout</a>
+    </p>
+  </div>
+</div>
 
 <ul>
-  <% users.forEach((user) => { %>
+  <% users.forEach((user)=> { %>
     <%- include('_user', { user }) %>
-  <% }) %>
+      <% }) %>
 </ul>

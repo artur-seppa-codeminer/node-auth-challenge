@@ -38,7 +38,7 @@ class VehicleModel extends BaseModel {
       model: { type: 'string' },
       year: { type: 'string' },
       comments: { type: 'string' },
-      dealershipId: { type: 'string' },
+      dealershipId: { type: 'integer' },
     },
   };
 }
